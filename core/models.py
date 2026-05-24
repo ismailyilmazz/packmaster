@@ -21,10 +21,10 @@ class Box:
         self.max_weight = max_weight
         self.volume = width * length * height
         
-        self.packed_items = []    # İçindekiler: {"item_id", "x", "y", "z", "w", "l", "h"}
+        self.packed_items = []    # İçindekiler: {"item_id", "x", "y", "z", "w", "l", "h"}, dikkat edersin
         self.current_weight = 0
         
-        # Arkadaşının 3D/2D çizim yapabilmesi için boş alan takibi (x, y, z, w, l, h)
+        #3D/2D çizim yapabilmesi için boş alan takibi (x, y, z, w, l, h)
         self.empty_spaces = [{"x": 0, "y": 0, "z": 0, "w": width, "l": length, "h": height}]
 
     def to_dict(self):

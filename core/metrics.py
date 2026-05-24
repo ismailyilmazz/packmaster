@@ -8,7 +8,7 @@ def run_dynamic_packing(box_types_json, items_json):
     Arayüzdeki formlardan gelen dinamik JSON verilerini çözer,
     5 algoritmayı yarıştırır ve detaylı koordinat sonuçlarını JS'e döner.
     """
-    # 1. Gelen JSON verilerini Python objelerine map et
+    # 1. Gelen JSON verilerini Python objelerine map ettik
     raw_boxes = json.loads(box_types_json)
     raw_items = json.loads(items_json)
     
@@ -34,17 +34,17 @@ def run_dynamic_packing(box_types_json, items_json):
     
     final_response = {}
     
-    # 2. Her algoritmayı dinamik veriyle yarıştır
+    # Her algoritmayı dinamik veriyle yarıştır
     for name, algo_func in algorithms.items():
         start_time = time.perf_counter()
         packed_boxes = algo_func()
         end_time = time.perf_counter()
         
-        # Metrikleri hesapla
+    
         total_used_boxes = len(packed_boxes)
         execution_time_ms = round((end_time - start_time) * 1000, 2)
         
-        # JSON çıktısı için kutuları serialize et
+        # JSON çıktısı 
         boxes_list = [box.to_dict() for box in packed_boxes]
         
         final_response[name] = {
@@ -52,7 +52,7 @@ def run_dynamic_packing(box_types_json, items_json):
                 "box_count": total_used_boxes,
                 "execution_time_ms": execution_time_ms
             },
-            "boxes": boxes_list  # ARTIK KOORDİNATLAR BURADA! Arkadaşın burayı çizecek.
+            "boxes": boxes_list  # Koordinatlar
         }
         
     return json.dumps(final_response)

@@ -6,12 +6,12 @@ def generate_hard_dataset(seed=42):
     Birbiriyle alakasız boyut ve ağırlıklara sahip, gerçekçi kısıtlar içeren 
     150 adet heterojen üründen oluşan test veri setini üretir.
     """
-    # Her çalıştığında aynı "zor" veri setini üretsin diye seed sabitliyoruz
+    # Her algo eşit yarışsın diye seed
     np.random.seed(seed)
     items = []
     
     for i in range(1, 151):
-        # Ürünlere rastgele özellikler veriyoruz:
+        # Ürünlere rastgele özellikler 
         is_fragile = bool(np.random.rand() < 0.20)
         width = int(np.random.randint(10, 50))
         length = int(np.random.randint(15, 70))
@@ -27,7 +27,6 @@ def get_dataset_as_dicts(seed=42):
     items = generate_hard_dataset(seed)
     return [item.to_dict() for item in items]
 
-# Test etmek istersen: python -m core.dataset
 if __name__ == "__main__":
     test_items = generate_hard_dataset()
     print(f" -> Başarıyla {len(test_items)} adet zor senaryo ürünü üretildi.")

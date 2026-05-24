@@ -7,7 +7,6 @@ class PackingOptimizer:
         box_types: Arasayüzden gelen koli tipleri listesi (Küçük, Orta, Büyük)
         items: Arayüzdeki tablodan veya formdan gelen ürünler listesi
         """
-        # Koli tiplerini hacimlerine göre küçükten büyüğe sıralayalım (Maliyet optimizasyonu için)
         self.box_types = sorted(box_types, key=lambda b: b.volume)
         self.items = items
 
@@ -22,7 +21,7 @@ class PackingOptimizer:
             item = self.items[int(idx)]
             placed = False
 
-            # 1. Mevcut açılmış kolilere sığıyor mu bak
+            # Mevcut açılmış kolilere sığıyor mu bak
             for box in opened_boxes:
                 if box.current_weight + item.weight > box.max_weight:
                     continue
@@ -43,7 +42,7 @@ class PackingOptimizer:
                         })
                         box.current_weight += item.weight
                         
-                        # Kalan boşluğu 3 yeni eksene böl (3D Split Space)
+                        # Kalan boşluğu 3 yeni eksene böl
                         box.empty_spaces.pop(i)
                         if space["w"] - item.width > 0:
                             box.empty_spaces.append({"x": space["x"] + item.width, "y": space["y"], "z": space["z"], "w": space["w"] - item.width, "l": item.length, "h": space["h"]})
@@ -56,7 +55,7 @@ class PackingOptimizer:
                         break
                 if placed: break
 
-            # 2. Sığmadıysa, koli seçeneklerinden EN KÜÇÜK olan ve bu ürünü kurtaranı seçip aç
+            # Sığmadıysa, koli seçeneklerinden EN KÜÇÜK olan ve bu ürünü kurtaranı seçip aç
             if not placed:
                 for b_type in self.box_types:
                     if item.width <= b_type.width and item.length <= b_type.length and item.height <= b_type.height and item.weight <= b_type.max_weight:

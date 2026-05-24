@@ -8,7 +8,7 @@ async function initPyodide() {
         pyodide = await loadPyodide();
         await pyodide.loadPackage(["numpy", "pandas"]);
         
-        // Python kodlarını sanal ortama yükle
+        // Python kodlarını sanal ortama yüklüyorum
         pyodide.FS.mkdir('core');
         pyodide.FS.writeFile('core/__init__.py', '');
         pyodide.FS.writeFile('core/models.py', await (await fetch('/core/models.py')).text());
@@ -29,7 +29,7 @@ async function handleFormSubmitSimulation() {
     const outputPre = document.getElementById('output');
     outputPre.innerText = "Dinamik form verileri optimizasyon motoruna gönderildi...";
 
-    // 1. MOCK VERİ YERİNE ARTIK ARKADAŞININ FORMDAN ALACAĞI YAPIDA VERİ HAZIRLIYORUZ
+    // MOCK VERİ YERİNE ARTIK FORMDAN ALACAĞIN YAPIDA VERİ HAZIRLIYORUZ, Ona göre düzenle
     // Depodaki 3 farklı koli tipi (Küçük, Orta, Büyük)
     const mockFormBoxTypes = [
         { name: "Kucuk_Koli", width: 30, length: 30, height: 30, max_weight: 15 },
@@ -51,20 +51,18 @@ async function handleFormSubmitSimulation() {
     }
 
     try {
-        // 2. JavaScript verilerini JSON string'e çevirip Python'a paslıyoruz
+        //  JavaScript verilerini JSON string'e çevirip Python'a paslıyoruz
         const boxesJson = JSON.stringify(mockFormBoxTypes);
         const itemsJson = JSON.stringify(mockFormItems);
 
         pyodide.globals.set("js_boxes", boxesJson);
         pyodide.globals.set("js_items", itemsJson);
 
-        // 3. Python motorunu tetikle
         const jsonResultString = await pyodide.runPythonAsync(`
             from core.metrics import run_dynamic_packing
             run_dynamic_packing(js_boxes, js_items)
         `);
 
-        // 4. Python'dan gelen saf koordinat çıktısını JS objesine çevir
         const finalResults = JSON.parse(jsonResultString);
         console.log("Algoritmalardan Gelen Detaylı Koordinat Haritası:", finalResults);
 
@@ -75,7 +73,7 @@ async function handleFormSubmitSimulation() {
             output += `  -> Toplam Açılan Koli: ${finalResults[algo].summary.box_count} adet\n`;
             output += `  -> Süre: ${finalResults[algo].summary.execution_time_ms} ms\n`;
             
-            // Kolilerin detaylarını yazalım
+            // Kolilerin detaylarını yazan yer
             finalResults[algo].boxes.forEach(box => {
                 output += `    * Koli ID ${box.box_id} (${box.box_type_name} - ${box.width}x${box.length}x${box.height}): ${box.packed_items.length} ürün yerleşti.\n`;
             });
