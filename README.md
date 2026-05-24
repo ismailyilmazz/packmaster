@@ -1,23 +1,10 @@
 PackMaster: 3D Bin Packing Optimization System
 This project is a 3D packing optimization application that runs entirely in the browser using WebAssembly (Pyodide). It takes dynamic container and item data from the frontend, simulates 3D packing across multiple box types under weight/volume constraints, and returns precise coordinate maps for visual rendering.
 
-🛠️ Project Folder Structure
-The project must maintain the following structure for single-origin file fetching to work correctly:
 
-packmaster/
-├── core/                       # Optimization Logic (Python)
-│   ├── init.py
-│   ├── models.py               # Data models (Item, Box)
-│   ├── dataset.py              # Synthetic hard dataset generator
-│   ├── algorithms.py           # Packing algorithms (FFD, WOA, GWO, HHO, SSA)
-│   └── metrics.py              # Main orchestrator for JSON data handling
-│
-└── web/                        # User Interface (Frontend)
-├── index.html              # Main UI page
-└── js/
-└── main.js             # Pyodide setup and Data Bridge
 
 💻 How to Run the Project Locally
+
 Because the frontend fetches local Python files using standard browser network requests (fetch), opening the index.html file directly via double-click will trigger browser security (CORS) blocks. It must be served from a local server running at the root directory.
 
 Open your terminal/command prompt.
