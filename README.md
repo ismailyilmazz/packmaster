@@ -4,6 +4,7 @@ This project is a 3D packing optimization application that runs entirely in the 
 
 
 💻 How to Run the Project Locally
+
 Because the frontend fetches local Python files using standard browser network requests (fetch), opening the index.html file directly via double-click will trigger browser security (CORS) blocks. It must be served from a local server running at the root directory.
 
 Open your terminal/command prompt.
