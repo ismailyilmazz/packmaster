@@ -7,6 +7,7 @@ async function initPyodide() {
         pyodide = await loadPyodide();
         await pyodide.loadPackage(["numpy", "pandas"]);
         
+        // GitHub Pages uyumluluğu için yollar bağıl yapıldı
         pyodide.FS.mkdir('core');
         pyodide.FS.writeFile('core/__init__.py', '');
         pyodide.FS.writeFile('core/models.py', await (await fetch('../core/models.py')).text());
@@ -48,17 +49,20 @@ async function gercekVerilerleCalistir() {
         if (outputPre) outputPre.innerText = "Python optimizasyon motoru çalışıyor...";
 
         let formVerileri = UI.verileriTopla();
-        let koliDizisi = [formVerileri.box];
-        let urunDizisi = [formVerileri.item];
 
-        const finalResults = await calculatePacking(koliDizisi, urunDizisi);
+        if (formVerileri.boxes.length === 0 || formVerileri.items.length === 0) {
+            UI.durumuGuncelle('error', 'Lütfen en az 1 koli ve 1 ürün ekleyin!');
+            return;
+        }
+
+        const finalResults = await calculatePacking(formVerileri.boxes, formVerileri.items);
         console.log("Python'dan Dönen Gerçek Sonuçlar:", finalResults);
 
         if (outputPre) {
             outputPre.innerText = JSON.stringify(finalResults, null, 2);
         }
 
-        UI.sonuclariCiz(formVerileri.box, finalResults);
+        UI.sonuclariHazirla(finalResults);
         UI.durumuGuncelle('success', 'Hesaplama başarıyla tamamlandı!');
 
     } catch (error) {
